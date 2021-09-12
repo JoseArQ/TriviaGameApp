@@ -11,11 +11,12 @@ import java.sql.SQLException;
 public class JDBCUtilities {
     
     // atributos para gestión de la conexion con la base de datos
-    private static final String UBICACION_BD = "TriviaGameDB.db";
+    //private static final String UBICACION_BD = "TriviaGameDB";
+    private static final String UBICACION_BD = "/home/jose/NetBeansProjects/TriviaGameApp/TriviaGameDB";
     
     public static Connection getConnection() throws SQLException {
         
-        String url = "jdb:sqlit:" + UBICACION_BD;
+        String url = "jdbc:sqlite:" + UBICACION_BD;
         return DriverManager.getConnection(url);
     }
     
