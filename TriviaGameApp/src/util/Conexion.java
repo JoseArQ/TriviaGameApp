@@ -11,7 +11,7 @@ import java.sql.ResultSet;
  * @author jose
  */
 public class Conexion {
-    
+
     String strConexionDB = "jdbc:sqlite:/home/jose/NetBeansProjects/TriviaGameApp/TriviaGameDB";
     Connection conn = null;
 

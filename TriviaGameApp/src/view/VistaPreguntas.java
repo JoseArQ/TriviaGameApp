@@ -28,7 +28,6 @@ public class VistaPreguntas extends JFrame  {
     public static final ControladorTrivia controlador = new ControladorTrivia();
 
     //obtener datos de la base de datos
-    
     Preguntas preguntas = new Preguntas();
     ArrayList<PreguntasVO> subPreguntas = preguntas.obtenerPreguntas();
     ArrayList<String> preguntasCat = new ArrayList();
@@ -37,6 +36,13 @@ public class VistaPreguntas extends JFrame  {
     Respuestas respuestas = new Respuestas();
     ArrayList<String> subRespuestas ;
     
+    // para los puntos
+    Puntos puntos = new Puntos();
+    
+    int correctas;
+    int puntajeAcum;
+    
+    //inicar variables
     int result;
     int seconds = 10;
     int catg = 0;
@@ -45,7 +51,7 @@ public class VistaPreguntas extends JFrame  {
     int indiceElimiado;
     
      //declarar componentes del fram 
-    private JFrame frame = new JFrame();
+    private JFrame frame;
     private JTextArea textarea = new JTextArea();
     private JButton btnContinue;
     private JButton btnA;
@@ -60,6 +66,7 @@ public class VistaPreguntas extends JFrame  {
     
     
     public VistaPreguntas(){
+        
         // creamos el frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(650, 650);
@@ -149,11 +156,12 @@ public class VistaPreguntas extends JFrame  {
                 
                 if (pregActual < 25){
                     if (catg < 5) {
+                        Integer puntosRonda = puntos.puntosPregunta(catg);
                         preguntasCat = preguntas.obtenerPregCategoria(subPreguntas, catg+1);
                         int id = idPreg(preguntasCat);
                         
                         String pregunta = preguntasCat.get(id);
-                        
+
                         textarea.setText(pregunta);
                        
                         subRespuestas = respuestas.respuestaPorPreg(pregunta);
@@ -177,10 +185,14 @@ public class VistaPreguntas extends JFrame  {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if (respuestaCorrecta.equals(answer_labelA.getText())){
-                                    System.out.println("Ganas puntos y los acumalamos");
+                                    correctas++;
+                                    puntajeAcum += puntosRonda;
+                                    System.out.println(puntajeAcum);
+                                    btnContinue.doClick();
                                 }
-                                btnContinue.doClick();
-                                
+                                else {
+                                    System.exit(0);
+                                }
                             }
 
                         });
@@ -189,10 +201,14 @@ public class VistaPreguntas extends JFrame  {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if (respuestaCorrecta.equals(answer_labelB.getText())) {
-                                    System.out.println("Ganas puntos y los acumalamos");
+                                    correctas++;
+                                    puntajeAcum += puntosRonda;
+                                    System.out.println(puntajeAcum);
+                                    btnContinue.doClick();
                                 }
-                                btnContinue.doClick();
-
+                                else {
+                                    System.exit(0);
+                                }
                             }
 
                         });
@@ -201,9 +217,15 @@ public class VistaPreguntas extends JFrame  {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if (respuestaCorrecta.equals(answer_labelC.getText())){
-                                    System.out.println("Ganas puntos y los acumalamos");
+                                    correctas++;
+                                    puntajeAcum += puntosRonda;
+                                    System.out.println(puntajeAcum);
+                                    btnContinue.doClick();
                                 }
-                                btnContinue.doClick();
+                                else {
+                                    System.exit(0);
+                                }
+                                
                                 
                             }
 
@@ -213,11 +235,15 @@ public class VistaPreguntas extends JFrame  {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 if (respuestaCorrecta.equals(answer_labelD.getText())){
-                                    System.out.println("Ganas puntos y los acumalamos");
+                                    correctas++;
+                                    puntajeAcum += puntosRonda;
+                                    btnContinue.doClick();
                                 }
-                                btnContinue.doClick();
-                                
+                                else {
+                                    System.exit(0);
+                                }
                             }
+                            
 
                         });
                         
@@ -226,15 +252,19 @@ public class VistaPreguntas extends JFrame  {
                         ronda++;
                         textarea.setText("Click en siguiente para empezar Ronda #: "+ ronda);
                         //REINICIAMOS CATEGORIA
-                        catg = 0;   
+                        catg = 0;  
+                        
                     }
 
                 }
                 else{
+                    limpiarRespuestas();
                     //REINICIAMOS LISTA DE PREGUNTAS
                     subPreguntas = preguntas.obtenerPreguntas();
                     //mostrar resultado
-                    textarea.setText("FIN DEL JUEGO");
+                    textarea.setText("Puntaje Obtenido: "+puntajeAcum);
+                    pregActual = 0;
+                    puntajeAcum = 0;
                 }
             }
 
